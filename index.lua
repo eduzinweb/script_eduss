@@ -2,6 +2,19 @@ local player = game.Players.LocalPlayer
 local ui = Instance.new("ScreenGui")
 ui.Parent = player.PlayerGui
 
+-- Mensagem de execução do script
+local messageLabel = Instance.new("TextLabel")
+messageLabel.Size = UDim2.new(0, 200, 0, 40)
+messageLabel.Position = UDim2.new(0.5, -100, 0.1, 0)
+messageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+messageLabel.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
+messageLabel.TextSize = 20
+messageLabel.Text = "Executando Script..."
+messageLabel.Parent = ui
+
+-- Esperar 5 segundos para mostrar o menu
+wait(5)
+
 -- Frame principal do menu
 local mainFrame = Instance.new("Frame")
 mainFrame.Size = UDim2.new(0.4, 0, 0.6, 0)
@@ -72,8 +85,7 @@ minimizeButton.MouseButton1Click:Connect(toggleMenu)
 maximizeIcon.MouseButton1Click:Connect(toggleMenu)
 
 -- Executando script
-print("Executando Script....")
-wait(1) -- Apenas para simular um tempo de execução
+messageLabel.Visible = false
 
 -- Função ESP
 local function ESP(player1, player2)
