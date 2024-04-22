@@ -2,30 +2,6 @@ local player = game.Players.LocalPlayer
 local ui = Instance.new("ScreenGui")
 ui.Parent = player.PlayerGui
 
--- Mensagem de execução do script
-local messageLabel = Instance.new("TextLabel")
-messageLabel.Size = UDim2.new(0, 200, 0, 40)
-messageLabel.Position = UDim2.new(0.5, -100, 0.1, 0)
-messageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-messageLabel.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
-messageLabel.TextSize = 20
-messageLabel.Text = "Executando Script..."
-messageLabel.Visible = false
-messageLabel.Parent = ui
-
--- Esperar 3 segundos para mostrar o botão de menu
-wait(3)
-
--- Botão de executar script
-local executeButton = Instance.new("TextButton")
-executeButton.Size = UDim2.new(0, 200, 0, 40)
-executeButton.Position = UDim2.new(0.5, -100, 0.1, 0)
-executeButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Verde
-executeButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-executeButton.TextSize = 20
-executeButton.Text = "Executar Script"
-executeButton.Parent = ui
-
 -- Botão de menu
 local menuButton = Instance.new("TextButton")
 menuButton.Size = UDim2.new(0, 50, 0, 50)
@@ -38,8 +14,8 @@ menuButton.Parent = ui
 
 -- Frame principal do menu
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0.4, 0, 0.6, 0)
-mainFrame.Position = UDim2.new(0.3, 0, 0.2, 0)
+mainFrame.Size = UDim2.new(0, 200, 0, 200)
+mainFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
 mainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
 mainFrame.BorderSizePixel = 2
 mainFrame.Visible = false
@@ -56,56 +32,43 @@ title.Font = Enum.Font.SourceSansBold
 title.Text = "Script By eduzinweb"
 title.Parent = mainFrame
 
--- Botões de navegação
-local menuButtons = {
-    "Inicio",
-    "Farm",
-    "Teste"
-}
+-- Checkbox para ativar/desativar ESP
+local espCheckbox = Instance.new("TextButton")
+espCheckbox.Size = UDim2.new(0, 20, 0, 20)
+espCheckbox.Position = UDim2.new(0, 10, 0, 50)
+espCheckbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+espCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
+espCheckbox.Text = ""
+espCheckbox.Parent = mainFrame
 
-local buttonY = 50
-for i, buttonText in ipairs(menuButtons) do
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0.5, -10, 0, 30)
-    button.Position = UDim2.new(0, 10, 0, buttonY)
-    button.BackgroundColor3 = Color3.fromRGB(100, 100, 100) -- Cinza
-    button.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-    button.TextSize = 18
-    button.Text = buttonText
-    button.Parent = mainFrame
+-- Texto da checkbox do ESP
+local espText = Instance.new("TextLabel")
+espText.Size = UDim2.new(0, 100, 0, 20)
+espText.Position = UDim2.new(0, 40, 0, 50)
+espText.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+espText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
+espText.TextSize = 18
+espText.Text = "Esp Script"
+espText.Parent = mainFrame
 
-    buttonY = buttonY + 40
-end
+-- Checkbox para ativar/desativar voar
+local flyCheckbox = Instance.new("TextButton")
+flyCheckbox.Size = UDim2.new(0, 20, 0, 20)
+flyCheckbox.Position = UDim2.new(0, 10, 0, 100)
+flyCheckbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+flyCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
+flyCheckbox.Text = ""
+flyCheckbox.Parent = mainFrame
 
--- Botão de minimizar
-local minimizeButton = Instance.new("TextButton")
-minimizeButton.Size = UDim2.new(0, 30, 0, 30)
-minimizeButton.Position = UDim2.new(1, -30, 0, 0)
-minimizeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Vermelho
-minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-minimizeButton.Text = "X"
-minimizeButton.Parent = title
-
--- Função para alternar entre o menu maximizado e minimizado
-local function toggleMenu()
-    mainFrame.Visible = not mainFrame.Visible
-    minimizeButton.Visible = not minimizeButton.Visible
-end
-
-menuButton.MouseButton1Click:Connect(toggleMenu)
-minimizeButton.MouseButton1Click:Connect(toggleMenu)
-
--- Enviar mensagem "Executando Script" pelo diálogo no canto inferior direito
-local Chat = game:GetService("Chat")
-local Dialog = Chat:GetPropertyChangedSignal("BubbleChatEnabled"):Wait()
-if Dialog == false then
-    game.StarterGui:SetCore("ChatMakeSystemMessage", {
-        Text = "Executando Script...";
-        Color = Color3.new(1, 1, 0); -- Amarelo
-        Font = Enum.Font.SourceSansBold;
-        TextSize = 18;
-    })
-end
+-- Texto da checkbox de voar
+local flyText = Instance.new("TextLabel")
+flyText.Size = UDim2.new(0, 100, 0, 20)
+flyText.Position = UDim2.new(0, 40, 0, 100)
+flyText.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+flyText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
+flyText.TextSize = 18
+flyText.Text = "Voar"
+flyText.Parent = mainFrame
 
 -- Função ESP
 local function ESP(player1, player2)
@@ -143,25 +106,6 @@ local function toggleESP()
     print("ESP ativado: " .. tostring(espEnabled))
 end
 
--- Checkbox para ativar/desativar ESP
-local espCheckbox = Instance.new("TextButton")
-espCheckbox.Size = UDim2.new(0, 20, 0, 20)
-espCheckbox.Position = UDim2.new(0, 10, 0, 100)
-espCheckbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-espCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
-espCheckbox.Text = ""
-espCheckbox.Parent = mainFrame
-
--- Texto da checkbox
-local checkboxText = Instance.new("TextLabel")
-checkboxText.Size = UDim2.new(0, 100, 0, 20)
-checkboxText.Position = UDim2.new(0, 40, 0, 100)
-checkboxText.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-checkboxText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
-checkboxText.TextSize = 18
-checkboxText.Text = "Esp Script"
-checkboxText.Parent = mainFrame
-
 -- Conectar a checkbox com a função de ativar/desativar ESP
 espCheckbox.MouseButton1Click:Connect(toggleESP)
 
@@ -195,18 +139,8 @@ local function toggleFly()
     print("Voar ativado: " .. tostring(canFly))
 end
 
--- Botão para ativar/desativar voar
-local flyButton = Instance.new("TextButton")
-flyButton.Size = UDim2.new(0, 100, 0, 30)
-flyButton.Position = UDim2.new(0, 10, 0, 200)
-flyButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255) -- Ciano
-flyButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-flyButton.TextSize = 18
-flyButton.Text = "Voar"
-flyButton.Parent = mainFrame
-
 -- Conectar o botão de voar com a função de ativar/desativar voar
-flyButton.MouseButton1Click:Connect(toggleFly)
+flyCheckbox.MouseButton1Click:Connect(toggleFly)
 
 -- Função principal para voar
 game:GetService("UserInputService").JumpRequest:Connect(function()
