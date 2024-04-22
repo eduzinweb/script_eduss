@@ -32,43 +32,49 @@ title.Font = Enum.Font.SourceSansBold
 title.Text = "Script By eduzinweb"
 title.Parent = mainFrame
 
--- Checkbox para ativar/desativar ESP
-local espCheckbox = Instance.new("TextButton")
-espCheckbox.Size = UDim2.new(0, 20, 0, 20)
-espCheckbox.Position = UDim2.new(0, 10, 0, 50)
-espCheckbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-espCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
-espCheckbox.Text = ""
-espCheckbox.Parent = mainFrame
+-- Função para alternar entre o menu maximizado e minimizado
+local function toggleMenu()
+    mainFrame.Visible = not mainFrame.Visible
+end
 
--- Texto da checkbox do ESP
-local espText = Instance.new("TextLabel")
-espText.Size = UDim2.new(0, 100, 0, 20)
-espText.Position = UDim2.new(0, 40, 0, 50)
-espText.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-espText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
-espText.TextSize = 18
-espText.Text = "Esp Script"
-espText.Parent = mainFrame
+menuButton.MouseButton1Click:Connect(toggleMenu)
 
--- Checkbox para ativar/desativar voar
-local flyCheckbox = Instance.new("TextButton")
-flyCheckbox.Size = UDim2.new(0, 20, 0, 20)
-flyCheckbox.Position = UDim2.new(0, 10, 0, 100)
-flyCheckbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-flyCheckbox.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
-flyCheckbox.Text = ""
-flyCheckbox.Parent = mainFrame
+-- Função para criar uma opção de menu
+local function createMenuOption(name, yPos, func)
+    local optionFrame = Instance.new("Frame")
+    optionFrame.Size = UDim2.new(1, 0, 0, 40)
+    optionFrame.Position = UDim2.new(0, 0, 0, yPos)
+    optionFrame.BackgroundColor3 = Color3.fromRGB(100, 100, 100) -- Cinza
+    optionFrame.Parent = mainFrame
 
--- Texto da checkbox de voar
-local flyText = Instance.new("TextLabel")
-flyText.Size = UDim2.new(0, 100, 0, 20)
-flyText.Position = UDim2.new(0, 40, 0, 100)
-flyText.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-flyText.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
-flyText.TextSize = 18
-flyText.Text = "Voar"
-flyText.Parent = mainFrame
+    local nameLabel = Instance.new("TextLabel")
+    nameLabel.Size = UDim2.new(1, 0, 1, 0)
+    nameLabel.Position = UDim2.new(0, 5, 0, 0)
+    nameLabel.BackgroundTransparency = 1
+    nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+    nameLabel.TextSize = 18
+    nameLabel.Text = name
+    nameLabel.Parent = optionFrame
+
+    local switch = Instance.new("TextButton")
+    switch.Size = UDim2.new(0, 60, 0, 30)
+    switch.Position = UDim2.new(1, -70, 0.5, -15)
+    switch.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+    switch.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
+    switch.TextSize = 18
+    switch.Text = "Off"
+    switch.Parent = optionFrame
+
+    switch.MouseButton1Click:Connect(function()
+        if switch.Text == "Off" then
+            switch.Text = "On"
+            func(true)
+        else
+            switch.Text = "Off"
+            func(false)
+        end
+    end)
+end
 
 -- Função ESP
 local function ESP(player1, player2)
@@ -101,13 +107,13 @@ end
 -- Função para ativar/desativar ESP
 local espEnabled = false
 
-local function toggleESP()
-    espEnabled = not espEnabled
+local function toggleESP(enabled)
+    espEnabled = enabled
     print("ESP ativado: " .. tostring(espEnabled))
 end
 
--- Conectar a checkbox com a função de ativar/desativar ESP
-espCheckbox.MouseButton1Click:Connect(toggleESP)
+-- Criar opção de ESP no menu
+createMenuOption("Esp Script", 50, toggleESP)
 
 -- Função principal do ESP
 local function mainESP()
@@ -134,13 +140,13 @@ end
 local canFly = false
 
 -- Função para ativar/desativar voar
-local function toggleFly()
-    canFly = not canFly
+local function toggleFly(enabled)
+    canFly = enabled
     print("Voar ativado: " .. tostring(canFly))
 end
 
--- Conectar o botão de voar com a função de ativar/desativar voar
-flyCheckbox.MouseButton1Click:Connect(toggleFly)
+-- Criar opção de voar no menu
+createMenuOption("Voar", 100, toggleFly)
 
 -- Função principal para voar
 game:GetService("UserInputService").JumpRequest:Connect(function()
