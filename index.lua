@@ -66,12 +66,11 @@ minimizeButton.Text = "X"
 minimizeButton.Parent = title
 
 -- Ícone de maximizar
-local maximizeIcon = Instance.new("TextButton")
+local maximizeIcon = Instance.new("ImageButton")
 maximizeIcon.Size = UDim2.new(0, 30, 0, 30)
 maximizeIcon.Position = UDim2.new(0, 0, 0, 0)
-maximizeIcon.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Verde
-maximizeIcon.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
-maximizeIcon.Text = "M"
+maximizeIcon.BackgroundTransparency = 1
+maximizeIcon.Image = "https://media.discordapp.net/attachments/1178080607822163982/1200171063691186277/IMG_20240123_172131_920.jpg?ex=6633f367&is=66217e67&hm=2255ddb6b1c43417fe7d3c7c24981ae7c85fde9c76a272ebf9faa7237d9334e1&"
 maximizeIcon.Visible = false
 maximizeIcon.Parent = title
 
@@ -84,8 +83,13 @@ end
 minimizeButton.MouseButton1Click:Connect(toggleMenu)
 maximizeIcon.MouseButton1Click:Connect(toggleMenu)
 
--- Executando script
-messageLabel.Visible = false
+-- Enviar mensagem "Executando Script" pelo diálogo no canto inferior direito
+game.StarterGui:SetCore("ChatMakeSystemMessage", {
+    Text = "Executando Script...";
+    Color = Color3.new(1, 1, 0); -- Amarelo
+    Font = Enum.Font.SourceSansBold;
+    TextSize = 18;
+})
 
 -- Função ESP
 local function ESP(player1, player2)
