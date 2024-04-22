@@ -21,7 +21,7 @@ button.Parent = frame
 local buttonColor = button.BackgroundColor3
 
 -- Função para alternar a cor do botão
-button.MouseButton1Click:Connect(function()
+local function alternarCor()
     if buttonColor == Color3.fromRGB(255, 0, 0) then
         button.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Verde
         buttonColor = Color3.fromRGB(0, 255, 0)
@@ -29,4 +29,6 @@ button.MouseButton1Click:Connect(function()
         button.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Vermelho
         buttonColor = Color3.fromRGB(255, 0, 0)
     end
-end)
+end
+
+button.MouseButton1Click:Connect(alternarCor)
