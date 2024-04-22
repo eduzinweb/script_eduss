@@ -1,44 +1,32 @@
--- Função para calcular a distância entre duas pessoas
-function distance(x1, y1, x2, y2)
-    return math.sqrt((x2 - x1)^2 + (y2 - y1)^2)
-end
+-- Criar UI e botão
+local player = game.Players.LocalPlayer
+local ui = Instance.new("ScreenGui")
+ui.Parent = player.PlayerGui
 
--- Função ESP
-function ESP(person1, person2, lineColor)
-    -- Desenhar linha entre as pessoas
-    love.graphics.setColor(lineColor)
-    love.graphics.line(person1.x, person1.y, person2.x, person2.y)
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 200, 0, 100)
+frame.Position = UDim2.new(0, 10, 0, 10)
+frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+frame.BorderSizePixel = 2
+frame.Parent = ui
 
-    -- Calcular distância entre as pessoas
-    local dist = distance(person1.x, person1.y, person2.x, person2.y)
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 150, 0, 50)
+button.Position = UDim2.new(0.5, -75, 0.5, -25)
+button.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Vermelho
+button.BorderSizePixel = 2
+button.Text = "Clique Aqui"
+button.Parent = frame
 
-    -- Exibir a distância
-    love.graphics.setColor(255, 255, 255) -- Branco
-    love.graphics.print("Distância: " .. dist, 10, 10)
-end
+local buttonColor = button.BackgroundColor3
 
--- Mensagem no Roblox
-function enviarMensagemRoblox(mensagem)
-    -- Código para enviar mensagem no Roblox
-    print("Mensagem enviada no Roblox: " .. mensagem)
-end
-
-function love.load()
-    -- Posições das pessoas
-    person1 = { x = 100, y = 100 }
-    person2 = { x = 300, y = 200 }
-
-    -- Cor da linha
-    lineColor = {255, 255, 0} -- Amarelo
-
-    -- Executar função ESP
-    ESP(person1, person2, lineColor)
-
-    -- Enviar mensagem no Roblox
-    enviarMensagemRoblox("Executando...")
-end
-
-function love.draw()
-    -- Desenhar linha entre as pessoas
-    ESP(person1, person2, lineColor)
-end
+-- Função para alternar a cor do botão
+button.MouseButton1Click:Connect(function()
+    if buttonColor == Color3.fromRGB(255, 0, 0) then
+        button.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Verde
+        buttonColor = Color3.fromRGB(0, 255, 0)
+    else
+        button.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Vermelho
+        buttonColor = Color3.fromRGB(255, 0, 0)
+    end
+end)
