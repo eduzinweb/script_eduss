@@ -10,10 +10,31 @@ messageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Branco
 messageLabel.TextColor3 = Color3.fromRGB(0, 0, 0) -- Preto
 messageLabel.TextSize = 20
 messageLabel.Text = "Executando Script..."
+messageLabel.Visible = false
 messageLabel.Parent = ui
 
--- Esperar 5 segundos para mostrar o menu
-wait(5)
+-- Esperar 3 segundos para mostrar o botão de menu
+wait(3)
+
+-- Botão de executar script
+local executeButton = Instance.new("TextButton")
+executeButton.Size = UDim2.new(0, 200, 0, 40)
+executeButton.Position = UDim2.new(0.5, -100, 0.1, 0)
+executeButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Verde
+executeButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+executeButton.TextSize = 20
+executeButton.Text = "Executar Script"
+executeButton.Parent = ui
+
+-- Botão de menu
+local menuButton = Instance.new("TextButton")
+menuButton.Size = UDim2.new(0, 50, 0, 50)
+menuButton.Position = UDim2.new(0.9, 0, 0, 0)
+menuButton.BackgroundColor3 = Color3.fromRGB(0, 0, 255) -- Azul
+menuButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+menuButton.TextSize = 20
+menuButton.Text = "☰"
+menuButton.Parent = ui
 
 -- Frame principal do menu
 local mainFrame = Instance.new("Frame")
@@ -65,31 +86,26 @@ minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
 minimizeButton.Text = "X"
 minimizeButton.Parent = title
 
--- Ícone de maximizar
-local maximizeIcon = Instance.new("ImageButton")
-maximizeIcon.Size = UDim2.new(0, 30, 0, 30)
-maximizeIcon.Position = UDim2.new(0, 0, 0, 0)
-maximizeIcon.BackgroundTransparency = 1
-maximizeIcon.Image = "https://media.discordapp.net/attachments/1178080607822163982/1200171063691186277/IMG_20240123_172131_920.jpg?ex=6633f367&is=66217e67&hm=2255ddb6b1c43417fe7d3c7c24981ae7c85fde9c76a272ebf9faa7237d9334e1&"
-maximizeIcon.Visible = false
-maximizeIcon.Parent = title
-
 -- Função para alternar entre o menu maximizado e minimizado
 local function toggleMenu()
     mainFrame.Visible = not mainFrame.Visible
-    maximizeIcon.Visible = not maximizeIcon.Visible
+    minimizeButton.Visible = not minimizeButton.Visible
 end
 
+menuButton.MouseButton1Click:Connect(toggleMenu)
 minimizeButton.MouseButton1Click:Connect(toggleMenu)
-maximizeIcon.MouseButton1Click:Connect(toggleMenu)
 
 -- Enviar mensagem "Executando Script" pelo diálogo no canto inferior direito
-game.StarterGui:SetCore("ChatMakeSystemMessage", {
-    Text = "Executando Script...";
-    Color = Color3.new(1, 1, 0); -- Amarelo
-    Font = Enum.Font.SourceSansBold;
-    TextSize = 18;
-})
+local Chat = game:GetService("Chat")
+local Dialog = Chat:GetPropertyChangedSignal("BubbleChatEnabled"):Wait()
+if Dialog == false then
+    game.StarterGui:SetCore("ChatMakeSystemMessage", {
+        Text = "Executando Script...";
+        Color = Color3.new(1, 1, 0); -- Amarelo
+        Font = Enum.Font.SourceSansBold;
+        TextSize = 18;
+    })
+end
 
 -- Função ESP
 local function ESP(player1, player2)
@@ -169,3 +185,32 @@ while true do
     mainESP()
     wait(1)
 end
+
+-- Opção de voar
+local canFly = false
+
+-- Função para ativar/desativar voar
+local function toggleFly()
+    canFly = not canFly
+    print("Voar ativado: " .. tostring(canFly))
+end
+
+-- Botão para ativar/desativar voar
+local flyButton = Instance.new("TextButton")
+flyButton.Size = UDim2.new(0, 100, 0, 30)
+flyButton.Position = UDim2.new(0, 10, 0, 200)
+flyButton.BackgroundColor3 = Color3.fromRGB(0, 255, 255) -- Ciano
+flyButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- Branco
+flyButton.TextSize = 18
+flyButton.Text = "Voar"
+flyButton.Parent = mainFrame
+
+-- Conectar o botão de voar com a função de ativar/desativar voar
+flyButton.MouseButton1Click:Connect(toggleFly)
+
+-- Função principal para voar
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if canFly then
+        player.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Physics)
+    end
+end)
